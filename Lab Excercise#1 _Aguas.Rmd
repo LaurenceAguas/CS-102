@@ -1,0 +1,623 @@
+---
+title: "CS102_Aguas"
+author: "Laurence Aguas"
+date: "2024-02-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+install.packages("dplyr")
+install.packages("rvest")
+install.packages("httr")
+install.packages("polite")
+#Libraries
+#library(dplyr)
+#library(rvest)
+#library(httr)
+#library(polite)
+
+```{r}
+library(polite)
+library(rvest)
+library(httr)
+library(dplyr)
+
+WatchProducts <- data.frame() 
+
+WatchLink1 <- "https://www.amazon.co.uk/s?k=Watch&crid=3P7G4EVHY387&sprefix=watc%2Caps%2C448&ref=nb_sb_noss_2"
+session1 <- bow(WatchLink1, user_agent = "Educational Purposes")
+session1 <- scrape(session1)  
+
+WatchName1 <- session1 %>%
+  html_nodes(".s-widget-container > span span.a-size-base-plus") %>%
+  html_text()
+WatchName1 <- WatchName1[1:35]
+WatchName1
+
+WatchPrice1 <- session1 %>%
+  html_nodes("div:nth-of-type(n+7) .s-widget-container > span .a-row div.a-row:nth-of-type(1)") %>%
+  html_text()
+WatchPrice1 <- WatchPrice1[1:35]
+WatchPrice1
+
+WatchRatings1 <- session1 %>%
+  html_nodes(".s-widget-container > span span.s-underline-text") %>%
+  html_text()
+WatchRatings1 <- WatchRatings1[1:35]
+WatchRatings1
+
+WatchReviews1 <- session1 %>%
+  html_nodes(".s-widget-container > span span.a-icon-alt") %>%
+  html_text()
+WatchReviews1 <- WatchReviews1[1:35]
+WatchReviews1
+
+WatchProducts <- rbind(WatchProducts,data.frame
+                       (Name = WatchName1,
+                        Price = WatchPrice1,
+                        Ratings = WatchRatings1,
+                        NoOfReviews = WatchReviews1))
+
+#24
+## Watch Link 2
+
+WatchLink2 <- "https://www.amazon.co.uk/s?k=Watch&page=2&crid=3P7G4EVHY387&qid=1707441846&sprefix=watc%2Caps%2C448&ref=sr_pg_2"
+session2 <- bow(WatchLink2, user_agent = "Educational Purposes")
+session2 <- scrape(session2)  
+
+WatchName2 <- session2 %>%
+  html_nodes(".s-widget-container > span div:nth-of-type(2) span.a-size-base-plus") %>%
+  html_text()
+WatchName2 <- WatchName2 [1:35]
+WatchName2
+
+WatchPrice2 <- session2 %>%
+  html_nodes(".s-widget-container > span div:nth-of-type(2) .a-row div.a-row:nth-of-type(1)") %>%
+  html_text()
+WatchPrice2 <- WatchPrice2 [1:35]
+WatchPrice2
+
+WatchRatings2 <- session2 %>%
+  html_nodes(".s-widget-container > span div:nth-of-type(2) .a-section span.s-underline-text") %>%
+  html_text()
+WatchRatings2 <- WatchRatings2 [1:35]
+WatchRatings2
+
+WatchReviews2 <- session2 %>%
+  html_nodes(".s-widget-container > span span.a-icon-alt") %>%
+  html_text()
+WatchReviews2 <- WatchReviews2 [1:35]
+WatchReviews2
+
+WatchProducts <- rbind(WatchProducts,data.frame
+                       (Name = WatchName2,
+                        Price = WatchPrice2,
+                        Ratings = WatchRatings2,
+                        NoOfReviews = WatchReviews2))
+
+
+##
+##Watch Link 3
+
+WatchLink3 <- "https://www.amazon.co.uk/s?k=Watch&i=fashion&rh=n%3A11961407031&dc&ds=v1%3AN3d7kOYKFjQBlLFBX71qXtMSuVcw2NU777uZ6FRDReA&crid=3P7G4EVHY387&qid=1707442763&sprefix=watc%2Caps%2C448&ref=sr_ex_p_36_0"
+session3 <- bow(WatchLink3, user_agent = "Educational Purposes")
+session3 <- scrape(session3)  
+
+WatchName3 <- session3 %>%
+  html_nodes(".s-widget-container > span span.a-size-base-plus") %>%
+  html_text()
+WatchName3 <- WatchName3 [1:35]
+WatchName3
+
+WatchPrice3 <- session3 %>%
+  html_nodes("div:nth-of-type(n+7) .s-widget-container > span .a-row div.a-row:nth-of-type(1)") %>%
+  html_text()
+WatchPrice3 <- WatchPrice3 [1:35]
+WatchPrice3
+
+WatchRatings3 <- session3 %>%
+  html_nodes(".s-widget-container > span span.s-underline-text") %>%
+  html_text()
+WatchRatings3 <- WatchRatings3 [1:35]
+WatchRatings3
+
+WatchReviews3 <- session3 %>%
+  html_nodes(".s-widget-container > span span.a-icon-alt") %>%
+  html_text()
+WatchReviews3 <- WatchReviews3 [1:35]
+WatchReviews3
+
+WatchProducts <- rbind(WatchProducts,data.frame
+                       (Name = WatchName3,
+                        Price = WatchPrice3,
+                        Ratings = WatchRatings3,
+                        NoOfReviews = WatchReviews3))
+##
+View(WatchProducts)
+##
+```
+
+```{r}
+
+library(polite)
+library(rvest)
+library(httr)
+library(dplyr)
+
+
+#Second product is Bag
+
+BagProducts <- data.frame() 
+
+BagFirstLink1 <- "https://www.amazon.co.uk/s?k=bag&ref=nb_sb_noss"
+session5 <- bow(BagFirstLink1, user_agent = "Educational Purposes")
+session5 <- scrape(session5)  
+
+BagName1 <- session5 %>%
+  html_nodes(".s-widget-container > span h2") %>%
+  html_text()
+BagName1 <- BagName1[1:35]
+BagName1
+
+BagPrice1 <- session5 %>%
+  html_nodes("div:nth-of-type(n+7) .s-widget-container > span .a-size-base div.a-row:nth-of-type(1)") %>%
+  html_text()
+BagPrice1 <- BagPrice1[1:35]
+BagPrice1
+
+BagRatings1 <- session5 %>%
+  html_nodes(".s-widget-container > span div:nth-of-type(2) .a-section span.a-icon-alt") %>%
+  html_text()
+BagRatings1 <- BagRatings1[1:35]
+BagRatings1
+
+BagReviews1 <- session5 %>%
+  html_nodes(".s-widget-container > span div:nth-of-type(2) .a-section span.s-underline-text") %>%
+  html_text()
+BagReviews1 <- BagReviews1[1:35]
+BagReviews1
+
+BagProducts <- rbind(BagProducts,data.frame
+                       (Name = BagName1,
+                        Price = BagPrice1,
+                        Ratings = BagRatings1,
+                        NoOfReviews = BagReviews1))
+View(BagProducts)
+
+## Second Link/Page
+
+BagSecondLink <- "https://www.amazon.co.uk/s?k=bag&page=2&qid=1707468443&ref=sr_pg_2"
+session6 <- bow(BagSecondLink, user_agent = "Educational Purposes")
+session6 <- scrape(session6)  
+
+BagName2 <- session6 %>%
+  html_nodes(".s-widget-container > span span.a-size-base-plus") %>%
+  html_text()
+BagName2 <- BagName2[1:35]
+BagName2
+
+BagPrice2 <- session6 %>%
+  html_nodes(".s-widget-container > span .a-color-base div.a-row:nth-of-type(1)") %>%
+  html_text()
+BagPrice2 <- BagPrice2[1:35]
+BagPrice2
+
+BagRatings2 <- session6 %>%
+  html_nodes(".s-widget-container > span div:nth-of-type(2) .a-section span.a-icon-alt") %>%
+  html_text()
+BagRatings2 <- BagRatings2[1:35]
+BagRatings2
+
+BagReviews2 <- session6 %>%
+  html_nodes(".s-widget-container > span span.s-underline-text") %>%
+  html_text()
+BagReviews2 <- BagReviews2[1:35]
+BagReviews2
+
+BagProducts <- rbind(BagProducts,data.frame
+                       (Name = BagName2,
+                        Price = BagPrice2,
+                        Ratings = BagRatings2,
+                        NoOfReviews = BagReviews2))
+
+
+##Third Link/Page
+
+BagThirdLink <- "https://www.amazon.co.uk/s?k=bag&page=3&qid=1707469040&ref=sr_pg_3"
+session7 <- bow(BagThirdLink, user_agent = "Educational Purposes")
+session7 <- scrape(session7)  
+
+BagName3 <- session7 %>%
+  html_nodes(".s-widget-container > span h2") %>%
+  html_text()
+BagName3 <- BagName3[1:35]
+BagName3
+
+BagPrice3 <- session7 %>%
+  html_nodes(".s-widget-container > span .a-color-base div.a-row:nth-of-type(1)") %>%
+  html_text()
+BagPrice3 <- BagPrice3[1:35]
+BagPrice3
+
+BagRatings3 <- session7 %>%
+  html_nodes(".s-widget-container > span .a-star-small-4-5 span") %>%
+  html_text()
+BagRatings3 <- BagRatings3[1:35]
+BagRatings3
+
+BagReviews3 <- session7 %>%
+  html_nodes(".s-widget-container > span span.s-underline-text") %>%
+  html_text()
+BagReviews3 <- BagReviews3[1:35]
+BagReviews3
+
+BagProducts <- rbind(BagProducts,data.frame
+                       (Name = BagName2,
+                        Price = BagPrice2,
+                        Ratings = BagRatings2,
+                        NoOfReviews = BagReviews2))
+View(BagProducts)
+```
+
+```{r}
+## 10 Products
+
+#First Product under Watch Category
+
+ProductOneLink <- "https://www.amazon.co.uk/Timex-Analogue-Display-Leather-T2H291/dp/B000AYYIYK/ref=sr_1_6?crid=YYE1IOHGS5BI&keywords=watch&qid=1707469907&sprefix=watch%2Caps%2C814&sr=8-6"
+session8 <- bow(ProductOneLink, user_agent = "Educational Purposes")
+session8 <- scrape(session8)  
+
+ProductName1 <- session8 %>%
+  html_nodes("span.product-title-word-break") %>%
+  html_text()
+ProductName1
+
+ProductReviewer1 <- session8 %>%
+  html_nodes("#cm-cr-dp-review-list div.a-spacing-mini[data-hook], .cr-desktop-review-page-0 div.a-spacing-mini[data-hook]") %>%
+  html_text()
+ProductReviewer1 <- ProductReviewer1[1:10]
+ProductReviewer1
+
+ProductReview1 <- session8 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content span:nth-of-type(1), #customer_review_foreign-R37Q5SZTVM3UKT div.a-expander-content") %>%
+  html_text()
+ProductReview1 <- ProductReview1[1:10]
+ProductReview1
+
+ReviewDate1 <- session8 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate1 <- ReviewDate1[1:10]
+ReviewDate1
+
+ProductRatings1 <- session8 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none span.a-icon-alt") %>%
+  html_text()
+ProductRatings1 <- ProductRatings1[1:10]
+ProductRatings1
+
+## Product #2
+
+ProductTwoLink <- "https://www.amazon.co.uk/Sonic-Digital-Quartz-Silicone-SNC4137/dp/B09MZH49WM/ref=pd_rhf_dp_s_pd_crcbs_d_sccl_1_3/261-6433845-0482045?pd_rd_w=ujWBb&content-id=amzn1.sym.fc04212d-70e9-49ec-9b8d-dad198d07e08&pf_rd_p=fc04212d-70e9-49ec-9b8d-dad198d07e08&pf_rd_r=N97XB4YDWR4K8TF23WNF&pd_rd_wg=FOxQj&pd_rd_r=81b99b09-7f5e-48da-9195-8ce494fd903e&pd_rd_i=B09MZH49WM&psc=1"
+session9 <- bow(ProductTwoLink, user_agent = "Educational Purposes")
+session9 <- scrape(session9)  
+
+ProductName2 <- session9 %>%
+  html_nodes("span.product-title-word-break") %>%
+  html_text()
+ProductName2
+
+ProductReviewer2 <- session9 %>%
+  html_nodes("#cm-cr-dp-review-list div.a-spacing-mini[data-hook], .cr-desktop-review-page-0 div.a-spacing-mini[data-hook]") %>%
+  html_text()
+ProductReviewer2 <- ProductReviewer2[1:10]
+ProductReviewer2
+
+ProductReview2 <- session9 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .a-expander-content span.cr-original-review-content, #customer_review_foreign-RACDZ57K9UQES span.a-color-secondary, #customer_review_foreign-RACDZ57K9UQES span.a-color-tertiary, #customer_review_foreign-R3VIWWDP70XDWA div.a-expander-content") %>%
+  html_text()
+ProductReview2 <- ProductReview2[1:10]
+ProductReview2
+
+ReviewDate2 <- session9 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-color-secondary") %>%
+  html_text()
+ReviewDate2 <- ReviewDate2[1:10]
+ReviewDate2
+
+ProductRatings2 <- session8 %>%
+  html_nodes(".a-size-base .a-star-5 span, .a-spacing-none .a-spacing-none .a-star-5 span") %>%
+  html_text()
+ProductRatings2 <- ProductRatings2[1:10]
+ProductRatings2
+
+
+## Product #3
+
+ProductThirdLink <- "https://www.amazon.co.uk/Timex-T42571-Expedition-Analogue-Display/dp/B000SZNSVA/ref=sr_1_11?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-11"
+session10 <- bow(ProductThirdLink, user_agent = "Educational Purposes")
+session10 <- scrape(session10)  
+
+ProductName3 <- session10 %>%
+  html_nodes("span.product-title-word-break") %>%
+  html_text()
+ProductName3
+
+ProductReviewer3 <- session9 %>%
+  html_nodes("#customer_review-RI3R5KMIQVGVB div.a-profile-content, div.review:nth-of-type(n+2) a span.a-profile-name, #customer_review_foreign-R2XKM2XG5EDRJI .a-row[data-hook] div.a-profile-content, div.a-section:nth-of-type(n+2) .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer3 <- ProductReviewer3[1:10]
+ProductReviewer3
+
+ProductReview3 <- session9 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content > span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview3 <- ProductReview3[1:10]
+ProductReview3
+
+ReviewDate3 <- session9 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate3 <- ReviewDate3[1:10]
+ReviewDate3
+
+ProductRatings3 <- session8 %>%
+  html_nodes(".a-size-base .a-star-5 span, .a-spacing-none .a-spacing-none span.a-icon-alt") %>%
+  html_text()
+ProductRatings3 <- ProductRatings3[1:10]
+ProductRatings3
+
+## Product #4
+
+ProductFourthLink <- "https://www.amazon.co.uk/SEKONDA-Analogue-Display-Leather-3882-27/dp/B07571Z867/ref=sr_1_30?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-30"
+session11<- bow(ProductFourthLink, user_agent = "Educational Purposes")
+session11 <- scrape(session11)  
+
+ProductName4 <- session11 %>%
+  html_nodes("span.a-size-large") %>%
+  html_text()
+ProductName4
+
+ProductReviewer4 <- session11 %>%
+  html_nodes(".a-section.celwidget a span.a-profile-name, .a-spacing-mini div.a-profile span") %>%
+  html_text()
+ProductReviewer4 <- ProductReviewer4[1:10]
+ProductReviewer4
+
+ProductReview4 <- session11 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, #customer_review_foreign-R1AIX7URY9RTIZ div.a-expander-content, div.a-section:nth-of-type(n+2) .a-expander-content span.cr-original-review-content") %>%
+  html_text()
+ProductReview4 <- ProductReview4[1:10]
+ProductReview4
+
+ReviewDate4 <- session11 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate4 <- ReviewDate4[1:10]
+ReviewDate4
+
+ProductRatings4 <- session11 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span, i.a-star-1") %>%
+  html_text()
+ProductRatings4 <- ProductRatings4[1:10]
+ProductRatings4
+
+## Product #5
+
+ProductFifthLink <- "https://www.amazon.co.uk/Sekonda-Quartz-Analogue-Display-3347-27/dp/B005COLZ94/ref=pd_sbs_d_sccl_4_2/261-6433845-0482045?pd_rd_w=a7OQr&content-id=amzn1.sym.f5d177b3-9290-4c61-8b0e-06b08cdd933f&pf_rd_p=f5d177b3-9290-4c61-8b0e-06b08cdd933f&pf_rd_r=5FPSNNTF2ESTX3SCDJMS&pd_rd_wg=8Wi5q&pd_rd_r=1113f23a-b1ca-4efc-bf58-75f6590b6b7b&pd_rd_i=B005COLZ94&psc=1"
+session12<- bow(ProductFifthLink, user_agent = "Educational Purposes")
+session12 <- scrape(session12)  
+
+ProductName5 <- session12 %>%
+  html_nodes("span.product-title-word-break") %>%
+  html_text()
+ProductName5
+
+ProductReviewer5 <- session12 %>%
+  html_nodes(".a-row[data-hook] a span, .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer5 <- ProductReviewer5[1:10]
+ProductReviewer5
+
+ProductReview5 <- session12 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview5 <- ProductReview5[1:10]
+ProductReview5
+
+ReviewDate5 <- session12 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate5 <- ReviewDate5[1:10]
+ReviewDate5
+
+ProductRatings5 <- session12 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span") %>%
+  html_text()
+ProductRatings5 <- ProductRatings5[1:10]
+ProductRatings5
+
+
+## Product #6
+
+ProductSixLink <- "https://www.amazon.co.uk/Fossil-FS5304-Mens-Watch/dp/B06W2JSJ4H/ref=sr_1_32?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-32"
+session13<- bow(ProductSixLink, user_agent = "Educational Purposes")
+session13 <- scrape(session13)  
+
+ProductName6<- session13 %>%
+  html_nodes("span.product-title-word-break") %>%
+  html_text()
+ProductName6
+
+ProductReviewer6 <- session13 %>%
+  html_nodes(".a-row[data-hook] a span, .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer6 <- ProductReviewer6[1:10]
+ProductReviewer6
+
+ProductReview6 <- session13 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview6 <- ProductReview6[1:10]
+ProductReview6
+
+ReviewDate6 <- session13 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate6 <- ReviewDate6[1:10]
+ReviewDate6
+
+ProductRatings6 <- session13 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span") %>%
+  html_text()
+ProductRatings6 <- ProductRatings6[1:10]
+ProductRatings6
+
+## Product #7
+
+ProductSeventhLink <- "https://www.amazon.co.uk/Casio-MQ24-7B2-Analog-Watch-Black/dp/B000GB0G7A/ref=sr_1_33?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-33"
+session14<- bow(ProductSeventhLink, user_agent = "Educational Purposes")
+session14 <- scrape(session14)  
+
+ProductName7<- session14 %>%
+  html_nodes("span.a-size-large") %>%
+  html_text()
+ProductName7
+
+ProductReviewer7<- session14 %>%
+  html_nodes(".a-row[data-hook] a span, .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer7 <- ProductReviewer7[1:10]
+ProductReviewer7
+
+ProductReview7<- session14 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview7 <- ProductReview7[1:10]
+ProductReview7
+
+ReviewDate7 <- session14 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate7 <- ReviewDate7[1:10]
+ReviewDate7
+
+ProductRatings7<- session14 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span") %>%
+  html_text()
+ProductRatings7 <- ProductRatings7[1:10]
+ProductRatings7
+
+
+## Product #8
+
+ProductEightLink <- "https://www.amazon.co.uk/Casio-Collection-Mens-Watch-MW-240-4BVEF/dp/B01BMG1NHE/ref=sr_1_43?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-43"
+session15<- bow(ProductEightLink, user_agent = "Educational Purposes")
+session15 <- scrape(session15)  
+
+ProductName8<- session15 %>%
+  html_nodes("span.a-size-large") %>%
+  html_text()
+ProductName8
+
+ProductReviewer8<- session15 %>%
+  html_nodes(".a-row[data-hook] a span, .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer8 <- ProductReviewer8[1:10]
+ProductReviewer8
+
+ProductReview8<- session15 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview8 <- ProductReview8[1:10]
+ProductReview8
+
+ReviewDate8 <- session15 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate8 <- ReviewDate8[1:10]
+ReviewDate8
+
+ProductRatings8<- session15 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span") %>%
+  html_text()
+ProductRatings8 <- ProductRatings8[1:10]
+ProductRatings8
+
+## Product #9
+
+ProductNineLink <- "https://www.amazon.co.uk/Casio-Collection-Mens-Watch-MW-240-4BVEF/dp/B01BMG1NHE/ref=sr_1_43?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-43"
+session16<- bow(ProductNineLink, user_agent = "Educational Purposes")
+session16 <- scrape(session16)  
+
+ProductName9<- session16 %>%
+  html_nodes("span.a-size-large") %>%
+  html_text()
+ProductName9
+
+ProductReviewer9<- session16 %>%
+  html_nodes(".a-row[data-hook] a span, .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer9 <- ProductReviewer9[1:10]
+ProductReviewer9
+
+ProductReview9<- session16 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview9 <- ProductReview9[1:10]
+ProductReview9
+
+ReviewDate9 <- session16 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate9 <- session16[1:10]
+ReviewDate9
+
+ProductRatings9<- session16 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span") %>%
+  html_text()
+ProductRatings9 <- ProductRatings9[1:10]
+ProductRatings9
+
+## Product #10/Last Product
+
+ProductTenLink <- "https://www.amazon.co.uk/Sekonda-Quartz-Analogue-Display-3347-27/dp/B005COLZ94/ref=sr_1_28?crid=YYE1IOHGS5BI&keywords=watch&qid=1707471064&sprefix=watch%2Caps%2C814&sr=8-28"
+session17<- bow(ProductTenLink, user_agent = "Educational Purposes")
+session17 <- scrape(session17)  
+
+ProductName10<- session17 %>%
+  html_nodes("span.a-size-large") %>%
+  html_text()
+ProductName10
+
+ProductReviewer10<- session17 %>%
+  html_nodes(".a-row[data-hook] a span, .a-row[data-hook] div .a-profile-content span") %>%
+  html_text()
+ProductReviewer10 <- ProductReviewer10[1:10]
+ProductReviewer10
+
+ProductReview10<- session17 %>%
+  html_nodes("#cm-cr-dp-review-list .a-expander-content span, .cr-desktop-review-page-0 .a-expander-content > span:nth-of-type(1)") %>%
+  html_text()
+ProductReview10 <- ProductReview9[1:10]
+ProductReview10
+
+ReviewDate10 <- session17 %>%
+  html_nodes("#cm-cr-dp-review-list span.a-size-base.a-color-secondary, .cr-desktop-review-page-0 span.a-size-base.a-color-secondary") %>%
+  html_text()
+ReviewDate10 <- ReviewDate10[1:10]
+ReviewDate10
+
+ProductRatings10<- session17 %>%
+  html_nodes(".a-size-base span.a-icon-alt, .a-spacing-none .a-spacing-none .a-icon-star span") %>%
+  html_text()
+ReviewDate10 <- ReviewDate10[1:10]
+ReviewDate10
+
+```
+
+
+
