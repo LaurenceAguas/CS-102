@@ -2,7 +2,9 @@
 title: "CS102_Aguas"
 author: "Laurence Aguas"
 date: "2024-02-08"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +14,7 @@ install.packages("dplyr")
 install.packages("rvest")
 install.packages("httr")
 install.packages("polite")
+install.packages("readr")
 #Libraries
 #library(dplyr)
 #library(rvest)
@@ -23,6 +26,7 @@ library(polite)
 library(rvest)
 library(httr)
 library(dplyr)
+library(readr)
 
 WatchProducts <- data.frame() 
 
@@ -59,6 +63,7 @@ WatchProducts <- rbind(WatchProducts,data.frame
                         Price = WatchPrice1,
                         Ratings = WatchRatings1,
                         NoOfReviews = WatchReviews1))
+
 
 #24
 ## Watch Link 2
@@ -134,10 +139,15 @@ WatchProducts <- rbind(WatchProducts,data.frame
                         Price = WatchPrice3,
                         Ratings = WatchRatings3,
                         NoOfReviews = WatchReviews3))
-##
 View(WatchProducts)
+
+write.csv(WatchProducts, "100products#1.csv", row.names=FALSE)
+
 ##
 ```
+
+
+#Second Product
 
 ```{r}
 
@@ -259,9 +269,13 @@ BagProducts <- rbind(BagProducts,data.frame
                         Ratings = BagRatings2,
                         NoOfReviews = BagReviews2))
 View(BagProducts)
+
+write.csv(WatchProducts, "100products#2.csv", row.names=FALSE)
 ```
 
+
 ```{r}
+
 ## 10 Products
 
 #First Product under Watch Category
@@ -619,5 +633,6 @@ ReviewDate10
 
 ```
 
-
+ git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
 
