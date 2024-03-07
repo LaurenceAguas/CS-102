@@ -1,0 +1,82 @@
+---
+title: "Lab Exercise 1"
+author: "Laurence Aguas"
+date: "2024-03-07"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#1a.
+# A. Load the built-in warpbreaks dataset.
+data("warpbreaks")
+
+# 1. Find out, in a single command, which columns of warpbreaks are either numeric or integer. What are the data types of each column?
+column_types <- sapply(warpbreaks, class)
+column_types
+
+# 2. How many observations does it have?
+num_observations <- nrow(warpbreaks)
+num_observations
+
+# 3. Is numeric a natural data type for the columns which are stored as such? Convert to integer when necessary.
+warpbreaks$breaks <- as.integer(warpbreaks$breaks)
+
+# 4. Error messages in R sometimes report the underlying type of an object rather than the user-level class. Derive from the following code and error message what the underlying type. Explain what is the error all about. Do not just copy the error message that was displayed.
+observe <- nrow(warpbreaks)  
+
+```
+
+#B. Load the exampleFile.txt
+```{r}
+#2.
+FileLines <- readLines("exampleFile.txt")
+
+
+comments <- FileLines[grepl("//", FileLines)]
+data <- FileLines[!grepl("//", FileLines)]
+
+comments
+data
+
+#3.c
+CreationDate <- gsub(".*Created : ", "", comments[1])
+cat("It was created", CreationDate, "data.\n")
+
+#4.c
+  #4.a
+    Split <- strsplit(data,comments,split = ";")
+    Split
+  
+  #4.b
+    MaxField <- max(sapply(Split, length))
+    MaxField
+    Split <- lapply(Split, function(x) c(x, rep(NA, MaxField - length(x))))
+
+  #4.c
+    DataMatrix <- matrix(unlist(Split), nrow = length(Split), byrow = TRUE)
+    DataMatrix
+  #4.d
+    col <- colnames(DataMatrix)
+    if (DataMatrix == TRUE)
+    {
+      print(DataMatrix)
+    }
+    else 
+    {
+      print(col)
+    }
+    
+    colnames(DataMatrix)
+    
+    colnames(DataMatrix) <- gsub("^Field \\d+: ", "", comments[2:4])
+  
+    DataMatrix
+
+
+```
