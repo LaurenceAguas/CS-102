@@ -1,0 +1,129 @@
+---
+title: "LabExer3"
+author: "Laurence Aguas"
+date: "2024-03-17"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+#install.packages("dplyr")
+#install.packages("rvest")
+#install.packages("polite")
+#install.packages("httr")
+
+library(dplyr)
+library(rvest)
+library(polite)
+library(httr)
+
+
+Reviews <- data.frame()
+
+link <- "https://www.imdb.com/title/tt15239678/reviews?ref_=tt_urv"
+session <- bow(link, user_agent = "Educational Purpose")
+
+scrapeNodes <- function(selector) {
+  scrape(session) %>%
+    html_nodes(selector) %>%
+    html_text(trim = TRUE)
+}
+
+titleMovie <- scrapeNodes("a.subnav_heading")
+reviewer <- scrapeNodes("span.display-name-link")[1:10]
+scrapedDate <- scrapeNodes("span.review-date")[1:10]
+scrapedRating <- scrapeNodes("span.rating-other-user-rating")[1:10]
+scrapedReview <- scrapeNodes("div.text.show-more__control")[1:10]
+scrapedTitleReview <- scrapeNodes("a.title")[1:10]
+
+Reviews <- rbind(Reviews, data.frame(
+  movie_title = rep(titleMovie, 10),
+  reviewer_name = reviewer,
+  review_date = scrapedDate,
+  review_rating = scrapedRating,
+  review_content = scrapedReview,
+  review_title = scrapedTitleReview
+))
+
+Reviews
+
+```
+
+
+// creating connections
+```{r}
+
+library(dplyr,dbplyr)
+library(RMySQL)
+
+#creating connections
+connection <- dbConnect(RMySQL::MySQL(),
+                        dsn="MariaDB-connection",
+                        Server = "localhost",
+                        dbname = "2c_aguas", 
+                        user = "root", 
+                        password = "") 
+
+```
+
+
+
+```{r}
+dbListTables(connection)
+dbListFields(connection,"lab3")
+```
+
+// reading data from database
+```{r}
+
+review_data <- dbGetQuery(connection, "SELECT * FROM 2c_aguas.lab3")
+
+glimpse(review_data)
+
+```
+
+// inserting reviews 
+```{r}
+
+for (i in 1:nrow(Reviews)) {
+  query <- paste0("INSERT INTO lab3 (movie_title, reviewer_name, reviewer_date, review_rating, review_content, review_title) 
+                  VALUES ('", Reviews$movie_title[i],"','", Reviews$reviewer_name[i], "','", Reviews$review_date[i],"','", Reviews$review_rating[i], "','",
+                  gsub("'","''", Reviews$review_content[i]), "','", gsub("'","''", Reviews$review_title[i]), "')")
+  
+  # Execute query
+  query_result <- dbSendQuery(connection, query)
+  
+  # Clear result after executing query
+  dbClearResult(query_result)
+}
+
+
+```
+
+// read and view
+```{r}
+
+review_data <- dbGetQuery(connection, "SELECT * FROM 2c_aguas.lab3")
+
+
+# VIEW REVIEWS without primary key "id"
+review_data[,c(2:7)]
+
+#View(review_data[,c(2:7)])
+
+# Export to csv
+write.csv(review_data[,c(2:7)], "LabExer3.csv")
+
+```
+
+
+// closing the database connections 
+```{r}
+
+dbDisconnect(connection)
